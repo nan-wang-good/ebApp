@@ -10,7 +10,7 @@ env:
 phases:
   install:
     runtime-versions:
-      python: 3.8
+      python: latest
     commands:
       - echo Installing dependencies...
       - pip install --upgrade pip

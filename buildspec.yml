@@ -12,6 +12,11 @@ phases:
     # runtime-versions:
     #   python: latest
     commands:
+      - echo "Installing pip..."
+      - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+      - python3 get-pip.py  
+      - python3 --version 
+      - pip --version
       - echo Installing dependencies...
       #- pip3 install --upgrade pip
       - pip install -r requirements.txt

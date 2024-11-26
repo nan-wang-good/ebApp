@@ -38,7 +38,7 @@ phases:
       - python manage.py migrate
   build:
     commands:
-      - echo Build: Testing the application...
+      - echo "Testing the application..."
       - python manage.py test
       - echo "Creating deployment package"
       - zip -r app.zip *

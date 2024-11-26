@@ -1,28 +1,51 @@
-version: 0.2
+version: 0.1
+env:
+  variables:
+    AWS_DEFAULT_REGION: "us-east-1"
+    BUCKET_NAME: "21185069-ebapp-bucket"
+    # AWS_ACCESS_KEY_ID: "YOUR_ACCESS_KEY"
+    # AWS_SECRET_ACCESS_KEY: "YOUR_SECRET_KEY"
+
 
 phases:
   install:
     runtime-versions:
       python: 3.9
     commands:
-      - echo "Installing dependencies"
+      - echo Installing dependencies...
       - pip install --upgrade pip
-      - pip install -r requirements.txt  
-
+      - pip install -r requirements.txt
+      # install AWS CLI v2
+      - echo "Installing AWS CLI"
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - sudo ./aws/install
+      
+      - echo "Checking if the S3 bucket exists"
+      - |
+        if ! aws s3 ls "s3://$BUCKET_NAME" > /dev/null 2>&1; then
+          echo "Bucket does not exist. Creating it now."
+          aws s3 mb s3://$BUCKET_NAME --region $AWS_DEFAULT_REGION
+        else
+          echo "Bucket $BUCKET_NAME already exists."
+        fi
+      
+  pre_build:
+    commands:
+      - echo Pre-build: Preparing Django environment...
+      - pip install --upgrade pip
+      - python manage.py collectstatic --noinput
+      - python manage.py migrate
   build:
     commands:
-      - echo "Running build steps"
-
-  post_build:
-    commands:
-      - echo "Build completed successfully"
-      - echo "Artifacts are ready"
-
+      - echo Build: Testing the application...
+      - python manage.py test
+      - echo "Creating deployment package"
+      - zip -r app.zip *
+      - echo "Uploading to S3"
+      - aws s3 cp app.zip s3://$BUCKET_NAME/app.zip
+      
+  
 artifacts:
   files:
-    - '**/*'  
-  discard-paths: no  
-
-cache:
-  paths:
-    - 'pip-cache/**/*'
+    - app.zip

@@ -1,0 +1,10 @@
+version: 0.1
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/yourapp    #for web applicaton
+hooks:
+  AfterInstall:
+    - location: scripts/restart_server.sh
+      timeout: 300
+      runas: ubuntu    #amdmin permission

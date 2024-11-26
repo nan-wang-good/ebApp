@@ -9,8 +9,8 @@ env:
 
 phases:
   install:
-    runtime-versions:
-      python: latest
+    # runtime-versions:
+    #   python: latest
     commands:
       - echo Installing dependencies...
       - pip install --upgrade pip

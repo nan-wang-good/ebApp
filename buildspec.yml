@@ -18,7 +18,7 @@ phases:
       - pip3 install --upgrade pip
       - echo Installing dependencies...
       #- pip3 install --upgrade pip
-      - pip install -r requirements.txt
+      - pip3 install -r requirements.txt
       # install AWS CLI v2
       - echo "Installing AWS CLI"
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -37,7 +37,7 @@ phases:
   pre_build:
     commands:
       - echo "Preparing Django environment..."
-      #- pip install --upgrade pip
+      #- pip3 install --upgrade pip
       - python manage.py collectstatic --noinput
       - python manage.py migrate
   build:

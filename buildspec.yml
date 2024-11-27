@@ -13,7 +13,8 @@ phases:
     version:
       python: 3.9
     commands:
-      - echo Installing dependencies...
+      - echo "Installing dependencies..."
+      - pip install --upgrade pip
       - pip install -r requirements.txt --no-cache-dir
       # install AWS CLI v2
       - echo "Installing AWS CLI"
@@ -33,7 +34,6 @@ phases:
   pre_build:
     commands:
       - echo "Preparing Django environment..."
-      #- pip install --upgrade pip
       - python manage.py collectstatic --noinput
       - python manage.py migrate
   build:

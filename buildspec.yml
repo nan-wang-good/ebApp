@@ -9,24 +9,10 @@ env:
 
 phases:
   install:
-    # runtime-versions:
-    #   python: latest
+    runtime-versions:
+      python: 3.9
     commands:
-      - echo "Installing dependencies for building Python 3.9..."
-      - sudo yum groupinstall -y "Development Tools"  
-      - sudo yum install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel  
-      - curl -O https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz 
-      - tar -xvzf Python-3.9.7.tgz 
-      - cd Python-3.9.7
-      - ./configure --enable-optimizations 
-      - sudo make altinstall  
-      - python3.9 --version  
-      - python3.9 -m ensurepip --upgrade
-      - python3 --version
-      - python3 -m venv venv
-      - source venv/bin/activate
       - echo Installing dependencies...
-      - pip3 install --upgrade pip
       - pip3 install -r requirements.txt --no-cache-dir
       # install AWS CLI v2
       - echo "Installing AWS CLI"
